@@ -2,3 +2,4 @@ venv
 .idea
 git_repo
 __pycache__/
+full_file.xlsx

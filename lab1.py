@@ -1,8 +1,7 @@
 import os
 import subprocess
 import re
-
-os.chdir("git_repo/lab1")
+from utils import remove_not_empty_dir
 
 
 def files_exist(fname):
@@ -63,9 +62,18 @@ def check_output_files():
         return 0
 
 
-def final_score_lab1():
+def final_score_lab1(link):
     """
     Итоговый балл
     """
+    subprocess.run(f"git clone {link} git_repo", stdout=subprocess.PIPE)
+    subprocess.run(["pip3", "install", "-r", "git_repo/lab1/requirements.txt"], stdout=subprocess.PIPE)
+    os.chdir("git_repo/lab1")
+
     final_score = check_files() + check_execute() + check_output_files()
+
+    os.chdir("../..")
+
+    remove_not_empty_dir('git_repo')
+
     return final_score
