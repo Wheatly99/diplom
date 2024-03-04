@@ -14,7 +14,7 @@ def check_files():
     Проверка наличия файлов
     """
     if (files_exist("data_creation.py") and
-            # check_files("data_preprocessing.py") and
+            files_exist("data_preprocessing.py") and
             files_exist("model_preparation.py") and
             files_exist("model_testing.py") and
             files_exist("pipeline.sh")):
@@ -37,13 +37,12 @@ def check_execute():
                 file.write(filedata)
 
             result = subprocess.run("bash pipeline.sh", stdout=subprocess.PIPE, shell=True)
-            # if "Model test accuracy is: " in out:
-            if "Accuracy = " in f"{result.stdout}":
-                return 60
+            if "Model test accuracy is: " in f"{result.stdout}":
+                return 20
             else:
-                return check_files()
+                return 0
         except Exception:
-            return check_files()
+            return 0
 
 
 def check_output_files():
@@ -57,16 +56,16 @@ def check_output_files():
         if (os.listdir(dir_name_train) and
                 os.listdir(dir_name_test) and
                 len([file for file in os.listdir('.') if re.search(model_name, file)])):
-            return 80
+            return 20
         else:
-            return check_execute()
+            return 0
     except Exception:
-        return check_execute()
+        return 0
 
 
 def final_score_lab1():
     """
     Итоговый балл
     """
-    check_execute()
-    return check_output_files()
+    final_score = check_files() + check_execute() + check_output_files()
+    return final_score
