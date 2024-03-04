@@ -30,5 +30,3 @@ if __name__ == '__main__':
 
     with pd.ExcelWriter(file_name, engine='openpyxl', mode="a", if_sheet_exists="replace") as writer:
         teams.to_excel(writer, "teams", index=False)
-
-    print(teams)
