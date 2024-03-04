@@ -2,8 +2,9 @@
 
 How to run:
 ```shell
-docker build -t lab1 .
-docker run lab1 {https-git-link} {lab1/lab2/lab3/lab4/lab5}
+docker build -t {lab1/lab2/lab3/lab4/lab5} .
+docker run --name {lab1/lab2/lab3/lab4/lab5} -v full_file.xlsx:/app {lab1/lab2/lab3/lab4/lab5}
+docker cp {lab1/lab2/lab3/lab4/lab5}:/app/full_file.xlsx .
 ```
 
 # Description of tasks
