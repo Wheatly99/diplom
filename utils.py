@@ -1,10 +1,11 @@
 import os
 import stat
 import shutil
+import glob
 
 
 def files_exist(fname):
-    return os.path.isfile(fname)
+    return glob.glob(fname)
 
 
 def remove_not_empty_dir(name):

@@ -31,11 +31,13 @@ def check_execute():
             subprocess.run([sys.executable, "model_preparation.py"])
             result = subprocess.run([sys.executable, "model_testing.py"], stdout=subprocess.PIPE)
 
-            with open('Jenkinsfile') as f:
-                if 'git' in f.read() and "Model test accuracy is: " in f"{result.stdout}":
-                    return 20
-                else:
-                    return 0
+            with open('Jenkinsfile') as file:
+                filedata = file.read()
+
+            if 'git' in filedata and "Model test accuracy is: " in f"{result.stdout}":
+                return 20
+            else:
+                return 0
 
         except Exception:
             return 0
@@ -67,7 +69,10 @@ def final_score_lab2(link):
     subprocess.run(["pip3", "install", "-r", "git_repo/lab2/requirements.txt"], stdout=subprocess.PIPE)
     os.chdir("git_repo/lab2")
 
-    final_score = check_files() + check_execute() + check_output_files()
+    if check_files() == 0:
+        final_score = 0
+    else:
+        final_score = check_files() + check_execute() + check_output_files()
 
     os.chdir("../..")
 

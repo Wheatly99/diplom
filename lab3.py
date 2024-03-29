@@ -2,16 +2,15 @@ import os
 import subprocess
 import re
 from utils import remove_not_empty_dir, files_exist
+import glob
 
 
 def check_files():
     """
     Проверка наличия файлов
     """
-    if (files_exist("data_creation.py") and
-            files_exist("data_preprocessing.py") and
-            files_exist("model_preparation.py") and
-            files_exist("model_testing.py") and
+    if (files_exist("*.py") and
+            files_exist("Dockerfile") and
             files_exist("pipeline.sh")):
         return 40
     else:
@@ -31,7 +30,13 @@ def check_execute():
             # with open('pipeline.sh', 'w', newline='') as file:
             #     file.write(filedata)
 
-            result = subprocess.run("bash pipeline.sh", stdout=subprocess.PIPE, shell=True)
+            # Удаление каретки из файла
+            with open("pipeline.sh", 'r') as file:
+                content = file.read()
+            with open("pipeline.sh", 'w', newline='\n') as file:
+                file.write(content)
+
+            result = subprocess.run("bash docker_pipeline.sh", stdout=subprocess.PIPE, shell=True)
             if "Model test accuracy is: " in f"{result.stdout}":
                 return 20
             else:
@@ -40,36 +45,34 @@ def check_execute():
             return 0
 
 
-def check_output_files():
-    """
-    Проверка выходных файлов
-    """
-    dir_name_train = "train"
-    dir_name_test = "test"
-    model_name = "model"
-    try:
-        if (os.listdir(dir_name_train) and
-                os.listdir(dir_name_test) and
-                len([file for file in os.listdir('.') if re.search(model_name, file)])):
-            return 20
-        else:
-            return 0
-    except Exception:
-        return 0
+def additional_points():
+    '''
+    Дополнительные баллы за docker-compose и dockerhub
+    '''
+    add = 0
+    if files_exist("docker-compose.*"):
+        add += 10
+
+    with open('docker_pipeline.sh') as file:
+        content = file.read()
+    if "docker push" in content:
+        add += 10
+
+    return add
 
 
-def final_score_lab1(link):
+def final_score_lab3(link):
     """
     Итоговый балл
     """
     subprocess.run(f"git clone {link} git_repo", stdout=subprocess.PIPE)
-    subprocess.run(["pip3", "install", "-r", "git_repo/lab1/requirements.txt"], stdout=subprocess.PIPE)
-    os.chdir("git_repo/lab1")
+    subprocess.run(["pip3", "install", "-r", "git_repo/lab3/requirements.txt"], stdout=subprocess.PIPE)
+    os.chdir("git_repo/lab3")
 
     if check_files() == 0:
         final_score = 0
     else:
-        final_score = check_files() + check_execute() + check_output_files()
+        final_score = check_files() + check_execute() + additional_points()
 
     os.chdir("../..")
 
