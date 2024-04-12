@@ -1,6 +1,5 @@
 import os
 import subprocess
-import re
 from utils import remove_not_empty_dir, files_exist
 import sys
 

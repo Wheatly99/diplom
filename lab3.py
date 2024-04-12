@@ -1,8 +1,6 @@
 import os
 import subprocess
-import re
 from utils import remove_not_empty_dir, files_exist
-import glob
 
 
 def check_files():
@@ -11,7 +9,7 @@ def check_files():
     """
     if (files_exist("*.py") and
             files_exist("Dockerfile") and
-            files_exist("pipeline.sh")):
+            files_exist("docker_pipeline.sh")):
         return 40
     else:
         return 0
