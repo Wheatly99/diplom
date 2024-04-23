@@ -1,5 +1,5 @@
-import pandas as pd
-from utils import remove_not_empty_dir, final_score_lab
+from utils import remove_not_empty_dir
+from how_get_links import teams, yandex_forms
 import os
 import sys
 
@@ -9,15 +9,6 @@ if __name__ == '__main__':
     remove_not_empty_dir('git_repo')
 
     os.makedirs("git_repo")
-
-    file_name = 'full_file.xlsx'
-
-    teams = pd.read_excel(file_name, sheet_name='teams')
-    lab1 = pd.read_excel(file_name, sheet_name='lab1')
-    lab2 = pd.read_excel(file_name, sheet_name='lab2')
-    lab3 = pd.read_excel(file_name, sheet_name='lab3')
-    lab4 = pd.read_excel(file_name, sheet_name='lab4')
-    lab5 = pd.read_excel(file_name, sheet_name='lab5')
 
     # Критерии проверки
     lab1_params = {"lab": "lab1",
@@ -90,25 +81,8 @@ if __name__ == '__main__':
 
                    "max_score_check_output": 15, "output_files": ["data", "model.*"]}
 
-    list_labs = [[lab1, lab1_params],
-                 [lab2, lab2_params],
-                 [lab3, lab3_params],
-                 [lab4, lab4_params],
-                 [lab5, lab5_params]]
+    # Решение через файл, который будет размещен в teams
+    teams(lab1_params, lab2_params, lab3_params, lab4_params, lab5_params)
 
-    def add_score(lab, lab_score, lab_params, teams):
-        lab = lab.merge(teams[teams[lab_score].isnull()], left_on='index', right_on='link_index', how='inner')[
-            ['index', 'link']].drop_duplicates()
-        lab[lab_score] = lab.link.apply(lambda x: final_score_lab(x, **lab_params))
-        teams = teams.merge(lab, left_on='link_index', right_on='index', how='left')
-        teams[lab_score] = teams[lab_score + '_x'].combine_first(teams[lab_score + '_y'])
-        teams = teams[
-            ['group', 'full_name', 'link_index', 'lab1_score', 'lab2_score', 'lab3_score', 'lab4_score', 'lab5_score']]
-        return teams
-
-    for number, lab in enumerate(list_labs):
-        if ~lab[0].empty:
-            teams = add_score(lab[0], f'lab{number + 1}_score', lab[1], teams)
-
-    with pd.ExcelWriter(file_name, engine='openpyxl', mode="a", if_sheet_exists="replace") as writer:
-        teams.to_excel(writer, "teams", index=False)
+    # Решение через яндекс форму
+    # yandex_forms(lab1_params, lab2_params, lab3_params, lab4_params, lab5_params)
