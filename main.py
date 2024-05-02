@@ -18,7 +18,7 @@ if __name__ == '__main__':
 
                    "max_score_check_execute": 15, "execute_files": [],
                    "get_output_file": "pipeline.sh",
-                   "string_to_output": ["Model test accuracy is:"], "how_execute": "bash",
+                   "string_to_output": ["Model test accuracy is:"], "how_execute": "bash", "time_out": 300,
 
                    "max_score_dop_string": 0, "strings_in_file": [""], "files_to_check_string": [""],
 
@@ -33,7 +33,7 @@ if __name__ == '__main__':
                    "max_score_check_execute": 10, "execute_files": ["data_creation.py", "data_preprocessing.py",
                                                                     "model_preparation.py"],
                    "get_output_file": "model_testing.py",
-                   "string_to_output": ["Model test accuracy is:",], "how_execute": sys.executable,
+                   "string_to_output": ["Model test accuracy is:",], "how_execute": sys.executable, "time_out": 300,
 
                    "max_score_dop_string": 5, "strings_in_file": ["git"], "files_to_check_string": ["Jenkinsfile"],
 
@@ -46,7 +46,7 @@ if __name__ == '__main__':
 
                    "max_score_check_execute": 20, "execute_files": [],
                    "get_output_file": "docker_pipeline.sh",
-                   "string_to_output": ["Model test accuracy is:"], "how_execute": "bash",
+                   "string_to_output": ["Model test accuracy is:"], "how_execute": "bash", "time_out": 600,
 
                    "max_score_dop_string": 0, "strings_in_file": [""], "files_to_check_string": [""],
 
@@ -60,7 +60,7 @@ if __name__ == '__main__':
 
                    "max_score_check_execute": 0, "execute_files": [],
                    "get_output_file": "",
-                   "string_to_output": [""], "how_execute": "",
+                   "string_to_output": [""], "how_execute": "", "time_out": 300,
 
                    "max_score_dop_string": 20, "strings_in_file": ["md5: ", "size", "nfiles", "path", "url = "],
                    "files_to_check_string": ["data.dvc", ".dvc/config"],
@@ -75,7 +75,7 @@ if __name__ == '__main__':
                    "max_score_check_execute": 15, "execute_files": ["data_creation.py", "model_fit.py",
                                                                     "data_noise.py"],
                    "get_output_file": "pytest",
-                   "string_to_output": ["passed", "failedasd"], "how_execute": sys.executable,
+                   "string_to_output": ["passed", "failed"], "how_execute": sys.executable, "time_out": 300,
 
                    "max_score_dop_string": 0, "strings_in_file": [""], "files_to_check_string": [""],
 
@@ -85,4 +85,4 @@ if __name__ == '__main__':
     teams(lab1_params, lab2_params, lab3_params, lab4_params, lab5_params)
 
     # Решение через яндекс форму
-    # yandex_forms(lab1_params, lab2_params, lab3_params, lab4_params, lab5_params)
+    # yandex_forms(lab1_params, lab2_params, lab3_params, lab4_params, lab5_params, flag_email=False)

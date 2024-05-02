@@ -3,7 +3,7 @@ from final_score import final_score_lab
 from get_email_text import get_email_text, send_email
 
 
-def yandex_forms(lab1_params, lab2_params, lab3_params, lab4_params, lab5_params):
+def yandex_forms(lab1_params, lab2_params, lab3_params, lab4_params, lab5_params, flag_email):
     '''
     Получение работ студентов с Яндекс.Формы по почте
     '''
@@ -51,24 +51,22 @@ def yandex_forms(lab1_params, lab2_params, lab3_params, lab4_params, lab5_params
 
         df_empty_score = pd.concat([df_empty_score, score], ignore_index=True)
 
-        send_email(mail_user='MarkinM99@mail.ru',
-                   mail_pass='HMQTZRehXw7wvznWWEcC',
-                   mail_to=email_to_send,
-                   mail_subject='MLOps lab score',
-                   mail_text=f'''
-                   Your points and comments for laboratory work {lab_number} is
-                   {next(item for item in [lab1_score, lab2_score, lab3_score, lab4_score, lab5_score]
-                         if item is not None)}
-                   ''')
+        if flag_email:
+
+            send_email(mail_user='MarkinM99@mail.ru',
+                       mail_pass='HMQTZRehXw7wvznWWEcC',
+                       mail_to=email_to_send,
+                       mail_subject='MLOps lab score',
+                       mail_text=f'''
+                       Your points and comments for laboratory work {lab_number} is
+                       {next(item for item in [lab1_score, lab2_score, lab3_score, lab4_score, lab5_score]
+                             if item is not None)}
+                       ''')
 
     df_empty_score = df_empty_score.groupby(['group', 'full_name'], as_index=False).last()
 
-    with pd.ExcelWriter('test.xlsx', engine='openpyxl') as writer:
+    with pd.ExcelWriter('students_score_yandex.xlsx', engine='openpyxl') as writer:
         df_empty_score.to_excel(writer, "teams", index=False)
-
-
-
-
 
 
 def teams(lab1_params, lab2_params, lab3_params, lab4_params, lab5_params):
@@ -88,11 +86,11 @@ def teams(lab1_params, lab2_params, lab3_params, lab4_params, lab5_params):
     lab4 = pd.read_excel(file_name, sheet_name='lab4')
     lab5 = pd.read_excel(file_name, sheet_name='lab5')
 
-    list_labs = [[lab1, lab1_params],
-                 [lab2, lab2_params],
-                 [lab3, lab3_params],
-                 [lab4, lab4_params],
-                 [lab5, lab5_params]]
+    list_labs = [[1, lab1, lab1_params],
+                 [2, lab2, lab2_params],
+                 [3, lab3, lab3_params],
+                 [4, lab4, lab4_params],
+                 [5, lab5, lab5_params]]
 
     def add_score_teams(lab, lab_score, lab_params, teams):
         lab = lab.merge(teams[teams[lab_score].isnull()], left_on='index', right_on='link_index', how='inner')[
@@ -104,9 +102,9 @@ def teams(lab1_params, lab2_params, lab3_params, lab4_params, lab5_params):
             ['group', 'full_name', 'link_index', 'lab1_score', 'lab2_score', 'lab3_score', 'lab4_score', 'lab5_score']]
         return teams
 
-    for number, lab in enumerate(list_labs):
-        if ~lab[0].empty:
-            teams = add_score_teams(lab[0], f'lab{number + 1}_score', lab[1], teams)
+    for lab in list_labs:
+        if ~lab[1].empty:
+            teams = add_score_teams(lab[1], f'lab{lab[0]}_score', lab[2], teams)
 
     with pd.ExcelWriter(file_name, engine='openpyxl', mode="a", if_sheet_exists="replace") as writer:
         teams.to_excel(writer, "teams", index=False)
