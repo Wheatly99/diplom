@@ -158,7 +158,6 @@ def final_score_lab(link, lab,
 
     # Проверка на наличие директории и файла requirements.txt
     if not files_exist(root_files):
-        print(f"Directory {lab}/ or file requirements.txt does not exist")
         return 0, [f"Directory {lab}/ or file requirements.txt does not exist"]
 
     # shutil.copy("Dockerfile_execute", "git_repo/lab1/Dockerfile_execute")
