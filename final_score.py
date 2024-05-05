@@ -152,7 +152,7 @@ def final_score_lab(link, lab,
     """
     Итоговый балл
     """
-    subprocess.run(f"git clone {link} git_repo", stdout=subprocess.PIPE)
+    subprocess.run(["git", "clone", f"{link}", "git_repo"], stdout=subprocess.PIPE)
 
     root_files = f"git_repo/{lab}/requirements.txt"
 
