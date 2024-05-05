@@ -1,5 +1,6 @@
 import os
 import subprocess
+import psutil
 from utils import files_exist, remove_not_empty_dir
 
 
@@ -203,7 +204,12 @@ def final_score_lab(link, lab,
 
     os.chdir("../..")
 
-    os.system('taskkill /im wslhost.exe')
+    # Необходимо для завершения процесса, если в одной из задач есть бесконечный цикл
+    lst_stuck_proc = [p.info['pid'] for p in psutil.process_iter(attrs=['pid', 'name', 'cwd'])
+                      if ('wslhost.exe' in p.info['name']) and ('git_repo' in p.info['cwd'])]
+    for pid in lst_stuck_proc:
+        p = psutil.Process(pid)
+        p.kill()
 
     remove_not_empty_dir('git_repo')
 
