@@ -53,15 +53,18 @@ def yandex_forms(lab1_params, lab2_params, lab3_params, lab4_params, lab5_params
 
         if flag_email:
 
-            send_email(mail_user='MarkinM99@mail.ru',
-                       mail_pass='HMQTZRehXw7wvznWWEcC',
-                       mail_to=email_to_send,
-                       mail_subject='MLOps lab score',
-                       mail_text=f'''
-                       Your points and comments for laboratory work {lab_number} is
-                       {next(item for item in [lab1_score, lab2_score, lab3_score, lab4_score, lab5_score]
-                             if item is not None)}
-                       ''')
+            try:
+                send_email(mail_user='MarkinM99@mail.ru',
+                           mail_pass='HMQTZRehXw7wvznWWEcC',
+                           mail_to=email_to_send,
+                           mail_subject='MLOps lab score',
+                           mail_text=f'''
+                           Your points and comments for laboratory work {lab_number} is
+                           {next(item for item in [lab1_score, lab2_score, lab3_score, lab4_score, lab5_score]
+                                 if item is not None)}
+                           ''')
+            except:
+                print('Wrong email')
 
     df_empty_score = df_empty_score.groupby(['group', 'full_name'], as_index=False).last()
 

@@ -85,4 +85,4 @@ if __name__ == '__main__':
     teams(lab1_params, lab2_params, lab3_params, lab4_params, lab5_params)
 
     # Решение через яндекс форму
-    # yandex_forms(lab1_params, lab2_params, lab3_params, lab4_params, lab5_params, flag_email=False)
+    # yandex_forms(lab1_params, lab2_params, lab3_params, lab4_params, lab5_params, flag_email=True)
