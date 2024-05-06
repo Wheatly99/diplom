@@ -171,7 +171,7 @@ def final_score_lab(link, lab,
         return 0, [f"Directory {lab}/ or file requirements.txt does not exist"]
 
     # shutil.copy("Dockerfile_execute", "git_repo/lab1/Dockerfile_execute")
-    subprocess.run(["winpty", "docker", "exec", "-it", "-d", f"check_{lab}", "pip3", "install", "-r", f"git_repo/{lab}/requirements.txt"], stdout=subprocess.PIPE)
+    subprocess.run(["pip3", "install", "-r", f"git_repo/{lab}/requirements.txt"], stdout=subprocess.PIPE)
     os.chdir(f"git_repo/{lab}")
 
     # Проверка наличия файлов
