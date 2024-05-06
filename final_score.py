@@ -78,10 +78,18 @@ def check_execute(how_execute, execute_files, get_output_file, string_to_output,
                     message.append(stderr)
             else:
 
+                # Смена формата файла с Windows на Linux
                 with open(get_output_file, 'r') as open_file:
                     content = open_file.read()
                 with open(get_output_file, 'w', newline='\n') as open_file:
                     open_file.write(content)
+
+                # Смена формата файла с Windows на Linux для ЛР3 (Docker)
+                if files_exist('pipeline.sh'):
+                    with open('pipeline.sh', 'r') as open_file:
+                        content = open_file.read()
+                    with open('pipeline.sh', 'w', newline='\n') as open_file:
+                        open_file.write(content)
 
                 try:
                     result = subprocess.run(f"{how_execute} {get_output_file}", stdout=subprocess.PIPE, stderr=subprocess.PIPE, timeout=time_out)
@@ -94,7 +102,7 @@ def check_execute(how_execute, execute_files, get_output_file, string_to_output,
                 if stderr == 'cancel':
                     message.append(f"The code execution time in the file {get_output_file} has expired ({time_out} seconds)")
                     return 0, message
-                elif stderr:
+                elif b'DONE' not in stderr:
                     message.append(stderr)
             for string in string_to_output:
                 if string in f"{stdout}":
@@ -153,6 +161,7 @@ def final_score_lab(link, lab,
     """
     Итоговый балл
     """
+
     subprocess.run(["git", "clone", f"{link}", "git_repo"], stdout=subprocess.PIPE)
 
     root_files = f"git_repo/{lab}/requirements.txt"
@@ -162,7 +171,7 @@ def final_score_lab(link, lab,
         return 0, [f"Directory {lab}/ or file requirements.txt does not exist"]
 
     # shutil.copy("Dockerfile_execute", "git_repo/lab1/Dockerfile_execute")
-    subprocess.run(["pip3", "install", "-r", f"git_repo/{lab}/requirements.txt"], stdout=subprocess.PIPE)
+    subprocess.run(["winpty", "docker", "exec", "-it", "-d", f"check_{lab}", "pip3", "install", "-r", f"git_repo/{lab}/requirements.txt"], stdout=subprocess.PIPE)
     os.chdir(f"git_repo/{lab}")
 
     # Проверка наличия файлов
@@ -212,6 +221,8 @@ def final_score_lab(link, lab,
         p.kill()
 
     remove_not_empty_dir('git_repo')
+
+    # subprocess.run('docker system prune -af')
 
     # # Остановить докер с лабой и перенсти dockerfile_execute в текущую директорию
     # subprocess.run(f"docker stop {lab}", stdout=subprocess.PIPE, shell=True)

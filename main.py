@@ -18,7 +18,7 @@ if __name__ == '__main__':
 
                    "max_score_check_execute": 15, "execute_files": [],
                    "get_output_file": "pipeline.sh",
-                   "string_to_output": ["Model test accuracy is:"], "how_execute": "bash", "time_out": 300,
+                   "string_to_output": ["Model test accuracy is:"], "how_execute": "bash", "time_out": 20,
 
                    "max_score_dop_string": 0, "strings_in_file": [""], "files_to_check_string": [""],
 
