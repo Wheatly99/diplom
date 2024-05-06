@@ -84,5 +84,10 @@ if __name__ == '__main__':
     # Решение через файл, который будет размещен в teams
     teams(lab1_params, lab2_params, lab3_params, lab4_params, lab5_params)
 
+    # Запуск докера
+    # docker build -t lab_check_score .
+    # docker run -v "//var/run/docker.sock:/var/run/docker.sock" --privileged --name lab_check_score lab_check_score
+    # docker cp lab_check_score:/app/full_file.xlsx .
+
     # Решение через яндекс форму
     # yandex_forms(lab1_params, lab2_params, lab3_params, lab4_params, lab5_params, flag_email=True)

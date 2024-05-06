@@ -38,7 +38,7 @@ def check_execute(how_execute, execute_files, get_output_file, string_to_output,
                 open_file.write(content)
 
             try:
-                result = subprocess.run(f"{how_execute} {file}", stderr=subprocess.PIPE, timeout=time_out)
+                result = subprocess.run(f"{how_execute} {file}", stderr=subprocess.PIPE, timeout=time_out, shell=True)
                 stderr = result.stderr
             except:
                 stderr = 'cancel'
@@ -67,14 +67,11 @@ def check_execute(how_execute, execute_files, get_output_file, string_to_output,
                     result = subprocess.run(f"{get_output_file}", stdout=subprocess.PIPE, stderr=subprocess.PIPE, timeout=time_out)
                     stdout = result.stdout
                     stderr = result.stderr
-                except:
-                    stdout = None
-                    stderr = 'cancel'
-
-                if stderr == 'cancel':
+                except subprocess.TimeoutExpired:
                     message.append(f"The code execution time of pytest has expired ({time_out} seconds)")
                     return 0, message
-                elif stderr:
+
+                if stderr:
                     message.append(stderr)
             else:
 
@@ -92,17 +89,14 @@ def check_execute(how_execute, execute_files, get_output_file, string_to_output,
                         open_file.write(content)
 
                 try:
-                    result = subprocess.run(f"{how_execute} {get_output_file}", stdout=subprocess.PIPE, stderr=subprocess.PIPE, timeout=time_out)
+                    result = subprocess.run(f"{how_execute} {get_output_file}", stdout=subprocess.PIPE, stderr=subprocess.PIPE, timeout=time_out, shell=True)
                     stdout = result.stdout
                     stderr = result.stderr
-                except:
-                    stdout = None
-                    stderr = 'cancel'
-
-                if stderr == 'cancel':
+                except subprocess.TimeoutExpired:
                     message.append(f"The code execution time in the file {get_output_file} has expired ({time_out} seconds)")
                     return 0, message
-                elif b'DONE' not in stderr:
+
+                if b'DONE' not in stderr and stderr:
                     message.append(stderr)
             for string in string_to_output:
                 if string in f"{stdout}":
