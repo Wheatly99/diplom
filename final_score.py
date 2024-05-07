@@ -32,26 +32,29 @@ def check_execute(how_execute, execute_files, get_output_file, string_to_output,
 
         for file in execute_files:
 
-            with open(file, 'r') as open_file:
-                content = open_file.read()
-            with open(file, 'w', newline='\n') as open_file:
-                open_file.write(content)
+            if files_exist(file):
 
-            try:
-                result = subprocess.run(f"{how_execute} {file}", stderr=subprocess.PIPE, timeout=time_out, shell=True)
-                stderr = result.stderr
-            except:
-                stderr = 'cancel'
+                with open(file, 'r') as open_file:
+                    content = open_file.read()
+                with open(file, 'w', newline='\n') as open_file:
+                    open_file.write(content)
 
-            # subprocess.run(f"docker exec {lab} {file}", stdout=subprocess.PIPE, shell=True)
-            # result = subprocess.run(f"{how_execute} {file}", stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=True, timeout=time_out)
-            if stderr == 'cancel':
-                message.append(f"The code execution time in the file {file} has expired ({time_out} seconds)")
-                return 0, message
-            if not stderr:
-                score += max_score / cnt_execute_files
-            elif stderr:
-                message.append(stderr)
+                try:
+                    result = subprocess.run(f"{how_execute} {file}", stderr=subprocess.PIPE, timeout=time_out, shell=True)
+                    stderr = result.stderr
+                except subprocess.TimeoutExpired:
+                    stderr = 'cancel'
+
+                if stderr == 'cancel':
+                    message.append(f"The code execution time in the file {file} has expired ({time_out} seconds)")
+                    return 0, message
+                if not stderr:
+                    score += max_score / cnt_execute_files
+                elif stderr:
+                    message.append(stderr)
+
+            else:
+                message.append(f"File {file} does not exist")
 
         # Если выходную строку не ищем
         if not get_output_file:

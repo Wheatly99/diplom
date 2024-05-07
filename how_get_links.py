@@ -89,7 +89,8 @@ def teams(lab1_params, lab2_params, lab3_params, lab4_params, lab5_params):
     lab4 = pd.read_excel(file_name, sheet_name='lab4')
     lab5 = pd.read_excel(file_name, sheet_name='lab5')
 
-    list_labs = [[1, lab1, lab1_params],
+    list_labs = [
+        [1, lab1, lab1_params],
                  [2, lab2, lab2_params],
                  [3, lab3, lab3_params],
                  [4, lab4, lab4_params],

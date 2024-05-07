@@ -1,0 +1,14 @@
+{
+	"lab": "lab2",
+
+        "max_score_check_files": 40,
+        "files_ness": ["data_creation.py", "data_preprocessing.py", "model_preparation.py", "model_testing.py", "Jenkinsfile"],
+
+        "max_score_check_execute": 10, "execute_files": ["data_creation.py", "data_preprocessing.py", "model_preparation.py"],
+        "get_output_file": "model_testing.py",
+        "string_to_output": ["Model test accuracy is:"], "how_execute": "python3", "time_out": 50,
+
+        "max_score_dop_string": 5, "strings_in_file": ["git"], "files_to_check_string": ["Jenkinsfile"],
+
+        "max_score_check_output": 15, "output_files": ["train", "test", "model.*"]
+}

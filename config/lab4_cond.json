@@ -1,0 +1,15 @@
+{
+	"lab": "lab4",
+
+        "max_score_check_files": 40,
+        "files_ness": ["data_creation.py", "data_preprocessing.py", "data_update.py", "data_final.py", "*.dvc"],
+
+        "max_score_check_execute": 0, "execute_files": [],
+        "get_output_file": "",
+        "string_to_output": [""], "how_execute": "", "time_out": 300,
+
+        "max_score_dop_string": 20, "strings_in_file": ["md5: ", "size", "nfiles", "path", "url = "],
+        "files_to_check_string": ["data.dvc", ".dvc/config"],
+
+        "max_score_check_output": 0, "output_files": []
+}

@@ -1,0 +1,14 @@
+{
+	"lab": "lab3",
+
+        "max_score_check_files": 40,
+        "files_ness": ["*.py", "Dockerfile", "docker_pipeline.sh"],
+
+        "max_score_check_execute": 20, "execute_files": [],
+        "get_output_file": "docker_pipeline.sh",
+        "string_to_output": ["Model test accuracy is:"], "how_execute": "bash", "time_out": 600,
+
+        "max_score_dop_string": 0, "strings_in_file": [""], "files_to_check_string": [""],
+
+        "max_score_check_output": 0, "output_files": []
+}

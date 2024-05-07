@@ -1,0 +1,14 @@
+{
+	"lab": "lab5",
+
+        "max_score_check_files": 40,
+        "files_ness": ["data_creation.py", "model_fit.py", "data_noise.py", "test_model.py"],
+
+        "max_score_check_execute": 15, "execute_files": ["data_creation.py", "model_fit.py", "data_noise.py"],
+        "get_output_file": "pytest",
+        "string_to_output": ["passed", "failed"], "how_execute": "python3", "time_out": 300,
+
+        "max_score_dop_string": 0, "strings_in_file": [""], "files_to_check_string": [""],
+
+        "max_score_check_output": 15, "output_files": ["data", "model.*"]
+}
