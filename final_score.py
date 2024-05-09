@@ -18,9 +18,6 @@ def check_files(files_ness, max_score):
 
 def check_execute(how_execute, execute_files, get_output_file, string_to_output, max_score, time_out):
 
-    # subprocess.run(f"docker build -t {lab} -f ../../Dockerfile_execute .", stdout=subprocess.PIPE, shell=True)
-    # subprocess.run(f"docker run --name {lab} {lab}", stdout=subprocess.PIPE, shell=True)
-
     # Накопление обратной связи
     cnt_output_strings = len(string_to_output)
     cnt_execute_files = len(execute_files)
@@ -34,6 +31,7 @@ def check_execute(how_execute, execute_files, get_output_file, string_to_output,
 
             if files_exist(file):
 
+                # Смена формата файла с Windows на Linux
                 with open(file, 'r') as open_file:
                     content = open_file.read()
                 with open(file, 'w', newline='\n') as open_file:
@@ -117,8 +115,8 @@ def check_execute(how_execute, execute_files, get_output_file, string_to_output,
 
 def check_string_in_file(max_score, strings_in_file, files_to_check_string):
     cnt_words = len(strings_in_file)
-    message = []
     score = 0
+    message = []
     for file in files_to_check_string:
         if files_exist(file):
             with open(file) as file_open:
@@ -136,9 +134,6 @@ def check_output_files(exist_files, max_score):
     score = 0
     message = []
     for file in exist_files:
-            # result = subprocess.run(f"docker exec {lab} test -f {file}", stdout=subprocess.PIPE, shell=True)
-            # if result.stdout == 0:
-            #     score += max_score/count_ness_files
             if files_exist(file):
                 score += max_score / count_ness_files
             else:
@@ -167,7 +162,6 @@ def final_score_lab(link, lab,
     if not files_exist(root_files):
         return 0, [f"Directory {lab}/ or file requirements.txt does not exist"]
 
-    # shutil.copy("Dockerfile_execute", "git_repo/lab1/Dockerfile_execute")
     subprocess.run(["pip3", "install", "-r", f"git_repo/{lab}/requirements.txt"], stdout=subprocess.PIPE)
     os.chdir(f"git_repo/{lab}")
 
