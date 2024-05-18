@@ -58,17 +58,3 @@ def send_email(mail_user, mail_pass, mail_to, mail_subject, mail_text):
     server.sendmail(mail_user, mail_to, text)
 
     server.quit()
-
-
-# all_msg = get_email_text(mail_user='MarkinM99@mail.ru',
-#                          mail_pass='HMQTZRehXw7wvznWWEcC',
-#                          mail_subject='MLOps lab from Form',
-#                          main_dir='inbox')
-# for i in all_msg:
-#     print(i)
-
-# send_email(mail_user='MarkinM99@mail.ru',
-#            mail_pass='HMQTZRehXw7wvznWWEcC',
-#            mail_to='MarkinM99@mail.ru',
-#            mail_subject='MLOps lab score',
-#            mail_text='Zhopa')

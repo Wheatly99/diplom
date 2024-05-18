@@ -54,8 +54,8 @@ def yandex_forms(lab1_params, lab2_params, lab3_params, lab4_params, lab5_params
         if flag_email:
 
             try:
-                send_email(mail_user='MarkinM99@mail.ru',
-                           mail_pass='HMQTZRehXw7wvznWWEcC',
+                send_email(mail_user='put_your_email_here',
+                           mail_pass='put_your_pass_here',
                            mail_to=email_to_send,
                            mail_subject='MLOps lab score',
                            mail_text=f'''
